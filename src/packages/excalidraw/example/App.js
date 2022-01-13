@@ -146,6 +146,7 @@ export default function App() {
       },
     };
     excalidrawRef.current.updateScene(sceneData);
+    excalidrawRef.current.scrollToContent();
   };
 
   return (
