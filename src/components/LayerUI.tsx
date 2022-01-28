@@ -306,7 +306,7 @@ const LayerUI = ({
           {!viewModeEnabled && (
             <Section heading="shapes">
               {(heading) => (
-                <Stack.Col gap={4} align="start">
+                <Stack.Col gap={4} align="start" style={{alignSelf: "center"}}>
                   <Stack.Row
                     gap={1}
                     className={clsx("App-toolbar-container", {
