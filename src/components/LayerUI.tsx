@@ -198,27 +198,27 @@ const LayerUI = ({
           <Stack.Row gap={1} justifyContent="space-between">
             {actionManager.renderAction("clearCanvas")}
             <Separator />
-            {actionManager.renderAction("loadScene")}
+            {/* {actionManager.renderAction("loadScene")}
             {renderJSONExportDialog()}
-            {renderImageExportDialog()}
-            <Separator />
-            {onCollabButtonClick && (
+            {renderImageExportDialog()} */}
+            {/* <Separator /> */}
+            {/* {onCollabButtonClick && (
               <CollabButton
                 isCollaborating={isCollaborating}
                 collaboratorCount={appState.collaborators.size}
                 onClick={onCollabButtonClick}
               />
+            )} */}
+            <BackgroundPickerAndDarkModeToggle
+              actionManager={actionManager}
+              appState={appState}
+              setAppState={setAppState}
+              showThemeBtn={showThemeBtn}
+            />
+            {appState.fileHandle && (
+              <>{actionManager.renderAction("saveToActiveFile")}</>
             )}
           </Stack.Row>
-          <BackgroundPickerAndDarkModeToggle
-            actionManager={actionManager}
-            appState={appState}
-            setAppState={setAppState}
-            showThemeBtn={showThemeBtn}
-          />
-          {appState.fileHandle && (
-            <>{actionManager.renderAction("saveToActiveFile")}</>
-          )}
         </Stack.Col>
       </Island>
     </Section>
@@ -344,10 +344,10 @@ const LayerUI = ({
                         />
                       </Stack.Row>
                     </Island>
-                    <LibraryButton
+                    {/* <LibraryButton
                       appState={appState}
                       setAppState={setAppState}
-                    />
+                    /> */}
                   </Stack.Row>
                   {libraryMenu}
                 </Stack.Col>
@@ -430,7 +430,7 @@ const LayerUI = ({
             },
           )}
         >
-          {renderCustomFooter?.(false, appState)}
+          {/* {renderCustomFooter?.(false, appState)} */}
         </div>
         <div
           className={clsx(

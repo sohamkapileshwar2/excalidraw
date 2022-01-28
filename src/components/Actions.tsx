@@ -80,7 +80,7 @@ export const SelectedShapeActions = ({
         targetElements.some((element) => hasStrokeStyle(element.type))) && (
         <>
           {renderAction("changeStrokeStyle")}
-          {renderAction("changeSloppiness")}
+          {/* {renderAction("changeSloppiness")} */}
         </>
       )}
 
@@ -107,7 +107,7 @@ export const SelectedShapeActions = ({
 
       {renderAction("changeOpacity")}
 
-      <fieldset>
+      {/* <fieldset>
         <legend>{t("labels.layers")}</legend>
         <div className="buttonList">
           {renderAction("sendToBack")}
@@ -115,9 +115,9 @@ export const SelectedShapeActions = ({
           {renderAction("bringToFront")}
           {renderAction("bringForward")}
         </div>
-      </fieldset>
+      </fieldset> */}
 
-      {targetElements.length > 1 && (
+      {/* {targetElements.length > 1 && (
         <fieldset>
           <legend>{t("labels.align")}</legend>
           <div className="buttonList">
@@ -149,7 +149,7 @@ export const SelectedShapeActions = ({
             </div>
           </div>
         </fieldset>
-      )}
+      )} */}
       {!isMobile && !isEditing && targetElements.length > 0 && (
         <fieldset>
           <legend>{t("labels.actions")}</legend>
@@ -183,6 +183,9 @@ export const ShapesSwitcher = ({
       const shortcut = letter
         ? `${capitalizeString(letter)} ${t("helpDialog.or")} ${index + 1}`
         : `${index + 1}`;
+      if(value === 'rectangle' || value === 'selection' ||value === 'text'){
+
+      
       return (
         <ToolButton
           className="Shape"
@@ -203,13 +206,15 @@ export const ShapesSwitcher = ({
               selectedElementIds: {},
             });
             setCursorForShape(canvas, value);
-            if (value === "image") {
-              onImageAction({ pointerType });
-            }
+            // if (value === "image") {
+            //   onImageAction({ pointerType });
+            // }
           }}
         />
       );
+    }
     })}
+
   </>
 );
 

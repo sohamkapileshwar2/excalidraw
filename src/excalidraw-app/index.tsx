@@ -586,17 +586,18 @@ const ExcalidrawWrapper = () => {
         return null;
       }
       return (
-        <div
-          style={{
-            width: "24ch",
-            fontSize: "0.7em",
-            textAlign: "center",
-          }}
-        >
-          {/* <GitHubCorner theme={appState.theme} dir={document.dir} /> */}
-          {/* FIXME remove after 2021-05-20 */}
-          {PlusLinkJSX}
-        </div>
+        null
+        // <div
+        //   style={{
+        //     width: "24ch",
+        //     fontSize: "0.7em",
+        //     textAlign: "center",
+        //   }}
+        // >
+        //   {/* <GitHubCorner theme={appState.theme} dir={document.dir} /> */}
+        //   {/* FIXME remove after 2021-05-20 */}
+        //   {/* {PlusLinkJSX} */}
+        // </div>
       );
     },
     [],
@@ -652,7 +653,7 @@ const ExcalidrawWrapper = () => {
                 borderRadius: 12,
               }}
             >
-              {PlusLinkJSX}
+              {/* {PlusLinkJSX} */}
             </div>
           </div>
         );

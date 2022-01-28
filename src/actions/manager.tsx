@@ -13,6 +13,7 @@ import { MODES } from "../constants";
 
 export class ActionManager implements ActionsManagerInterface {
   actions = {} as ActionsManagerInterface["actions"];
+  
 
   updater: (actionResult: ActionResult | Promise<ActionResult>) => void;
 
