@@ -115,5 +115,6 @@
     "test:update": "yarn test:app --updateSnapshot --watchAll=false",
     "test": "yarn test:app",
     "autorelease": "node scripts/autorelease.js"
-  }
+  },
+  "version": "1.0.0"
 }
