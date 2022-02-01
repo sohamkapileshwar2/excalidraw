@@ -118,7 +118,11 @@ import {
   mutateElement,
   newElementWith,
 } from "../element/mutateElement";
-import { deepCopyElement, newFreeDrawElement } from "../element/newElement";
+import {
+  deepCopyElement,
+  newBlockElement,
+  newFreeDrawElement,
+} from "../element/newElement";
 import {
   hasBoundTextElement,
   isBindingElement,
@@ -140,6 +144,7 @@ import {
   InitializedExcalidrawImageElement,
   ExcalidrawImageElement,
   FileId,
+  ExcalidrawBlockElement,
 } from "../element/types";
 import { getCenter, getDistance } from "../gesture";
 import {
@@ -431,6 +436,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   public render() {
+    console.log(this.state , this.scene.getElements())
     const { zenModeEnabled, viewModeEnabled } = this.state;
 
     const {
@@ -2659,6 +2665,11 @@ class App extends React.Component<AppProps, AppState> {
         this.state.elementType,
         pointerDownState,
       );
+    } else if (this.state.elementType === "block") {
+      this.handleBlockElementOnPointerDown(
+        this.state.elementType,
+        pointerDownState,
+      );
     } else {
       this.createGenericElementOnPointerDown(
         this.state.elementType,
@@ -3430,6 +3441,43 @@ class App extends React.Component<AppProps, AppState> {
         editingElement: element,
       });
     }
+  };
+
+  private handleBlockElementOnPointerDown = (
+    elementType: ExcalidrawBlockElement["type"],
+    pointerDownState: PointerDownState,
+  ): void => {
+    const [gridX, gridY] = getGridPoint(
+      pointerDownState.origin.x,
+      pointerDownState.origin.y,
+      this.state.gridSize,
+    );
+    const element = newBlockElement({
+      type: "block",
+      name: "",
+      distributionName: "Weibull",
+      parameters: {},
+      x: gridX,
+      y: gridY,
+      strokeColor: this.state.currentItemStrokeColor,
+      backgroundColor: this.state.currentItemBackgroundColor,
+      fillStyle: this.state.currentItemFillStyle,
+      strokeWidth: this.state.currentItemStrokeWidth,
+      strokeStyle: this.state.currentItemStrokeStyle,
+      roughness: this.state.currentItemRoughness,
+      opacity: this.state.currentItemOpacity,
+      strokeSharpness: this.state.currentItemStrokeSharpness,
+    });
+
+    this.scene.replaceAllElements([
+      ...this.scene.getElementsIncludingDeleted(),
+      element,
+    ]);
+    this.setState({
+      multiElement: null,
+      draggingElement: element,
+      editingElement: element,
+    });
   };
 
   private onKeyDownFromPointerDownHandler(

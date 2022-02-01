@@ -43,6 +43,7 @@ export const AllowedExcalidrawElementTypes: Record<
   image: true,
   arrow: true,
   freedraw: true,
+  block: true,
 };
 
 export type RestoredDataState = {
@@ -198,7 +199,12 @@ const restoreElement = (
       return restoreElementWithProperties(element, {});
     case "diamond":
       return restoreElementWithProperties(element, {});
-
+    case "block":
+      return restoreElementWithProperties(element, {
+        name: element.name,
+        distributionName: element.distributionName,
+        parameters: element.parameters,
+      });
     // Don't use default case so as to catch a missing an element type case.
     // We also don't want to throw, but instead return void so we filter
     // out these unsupported elements from the restored array.

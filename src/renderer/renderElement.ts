@@ -191,7 +191,9 @@ const drawElementOnCanvas = (
   switch (element.type) {
     case "rectangle":
     case "diamond":
-    case "ellipse": {
+    case "ellipse": 
+    case "block":
+    {
       context.lineJoin = "round";
       context.lineCap = "round";
       rc.draw(getShapeForElement(element) as Drawable);
@@ -333,7 +335,9 @@ export const generateRoughOptions = (
   switch (element.type) {
     case "rectangle":
     case "diamond":
-    case "ellipse": {
+    case "ellipse": 
+    case "block":
+    {
       options.fillStyle = element.fillStyle;
       options.fill =
         element.backgroundColor === "transparent"
@@ -379,6 +383,7 @@ const generateElementShape = (
 
     switch (element.type) {
       case "rectangle":
+      case "block":
         if (element.strokeSharpness === "round") {
           const w = element.width;
           const h = element.height;
@@ -727,7 +732,8 @@ export const renderElement = (
     case "line":
     case "arrow":
     case "image":
-    case "text": {
+    case "text":
+    case "block": {
       generateElementShape(element, generator);
       if (renderConfig.isExporting) {
         const [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
@@ -802,7 +808,9 @@ export const renderElementToSvg = (
     }
     case "rectangle":
     case "diamond":
-    case "ellipse": {
+    case "ellipse":
+    case "block":
+       {
       generateElementShape(element, generator);
       const node = roughSVGDrawWithPrecision(
         rsvg,

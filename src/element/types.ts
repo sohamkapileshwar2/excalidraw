@@ -60,9 +60,6 @@ export type ExcalidrawSelectionElement = _ExcalidrawElementBase & {
 
 export type ExcalidrawRectangleElement = _ExcalidrawElementBase & {
   type: "rectangle";
-  // name?: string;
-  // distributionName?: string;
-  // parameters?: Object;
 };
 
 export type ExcalidrawDiamondElement = _ExcalidrawElementBase & {
@@ -88,6 +85,13 @@ export type InitializedExcalidrawImageElement = MarkNonNullable<
   "fileId"
 >;
 
+export type ExcalidrawBlockElement = _ExcalidrawElementBase & {
+  type: "block";
+  name: String;
+  distributionName: "Weibull";
+  parameters: Object;
+};
+
 /**
  * These are elements that don't have any additional properties.
  */
@@ -107,7 +111,8 @@ export type ExcalidrawElement =
   | ExcalidrawTextElement
   | ExcalidrawLinearElement
   | ExcalidrawFreeDrawElement
-  | ExcalidrawImageElement;
+  | ExcalidrawImageElement
+  | ExcalidrawBlockElement;
 
 export type NonDeleted<TElement extends ExcalidrawElement> = TElement & {
   isDeleted: boolean;
@@ -133,7 +138,8 @@ export type ExcalidrawBindableElement =
   | ExcalidrawDiamondElement
   | ExcalidrawEllipseElement
   | ExcalidrawTextElement
-  | ExcalidrawImageElement;
+  | ExcalidrawImageElement
+  | ExcalidrawBlockElement;
 
 export type ExcalidrawTextElementWithContainer = {
   containerId: ExcalidrawGenericElement["id"];

@@ -12,6 +12,7 @@ import {
   ExcalidrawFreeDrawElement,
   FontFamilyValues,
   ExcalidrawRectangleElement,
+  ExcalidrawBlockElement
 } from "../element/types";
 import { getFontString, getUpdatedTimestamp, isTestEnv } from "../utils";
 import { randomInteger, randomId } from "../random";
@@ -91,6 +92,24 @@ export const newElement = (
   } & ElementConstructorOpts,
 ): NonDeleted<ExcalidrawGenericElement> =>
   _newElementBase<ExcalidrawGenericElement>(opts.type, opts);
+
+
+export const newBlockElement = (
+    opts: {
+      type: ExcalidrawBlockElement["type"];
+      name: String;
+      distributionName: "Weibull";
+      parameters: Object;
+    } & ElementConstructorOpts,
+  ): NonDeleted<ExcalidrawBlockElement> => {
+    return {
+      ..._newElementBase<ExcalidrawBlockElement>(opts.type, opts),
+      name: opts.name,
+      distributionName: opts.distributionName,
+      parameters: opts.parameters,
+    };
+  };
+
 
 /** computes element x/y offset based on textAlign/verticalAlign */
 const getTextElementPositionOffsets = (

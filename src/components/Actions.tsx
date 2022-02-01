@@ -183,38 +183,40 @@ export const ShapesSwitcher = ({
       const shortcut = letter
         ? `${capitalizeString(letter)} ${t("helpDialog.or")} ${index + 1}`
         : `${index + 1}`;
-      if(value === 'rectangle' || value === 'selection' ||value === 'text'){
-
-      
-      return (
-        <ToolButton
-          className="Shape"
-          key={value}
-          type="radio"
-          icon={icon}
-          checked={elementType === value}
-          name="editor-current-shape"
-          title={`${capitalizeString(label)} — ${shortcut}`}
-          keyBindingLabel={`${index + 1}`}
-          aria-label={capitalizeString(label)}
-          aria-keyshortcuts={shortcut}
-          data-testid={value}
-          onChange={({ pointerType }) => {
-            setAppState({
-              elementType: value,
-              multiElement: null,
-              selectedElementIds: {},
-            });
-            setCursorForShape(canvas, value);
-            // if (value === "image") {
-            //   onImageAction({ pointerType });
-            // }
-          }}
-        />
-      );
-    }
+      if (
+        value === "rectangle" ||
+        value === "selection" ||
+        value === "text" ||
+        value === "block"
+      ) {
+        return (
+          <ToolButton
+            className="Shape"
+            key={value}
+            type="radio"
+            icon={icon}
+            checked={elementType === value}
+            name="editor-current-shape"
+            title={`${capitalizeString(label)} — ${shortcut}`}
+            keyBindingLabel={`${index + 1}`}
+            aria-label={capitalizeString(label)}
+            aria-keyshortcuts={shortcut}
+            data-testid={value}
+            onChange={({ pointerType }) => {
+              setAppState({
+                elementType: value,
+                multiElement: null,
+                selectedElementIds: {},
+              });
+              setCursorForShape(canvas, value);
+              // if (value === "image") {
+              //   onImageAction({ pointerType });
+              // }
+            }}
+          />
+        );
+      }
     })}
-
   </>
 );
 
