@@ -60,6 +60,9 @@ export type ExcalidrawSelectionElement = _ExcalidrawElementBase & {
 
 export type ExcalidrawRectangleElement = _ExcalidrawElementBase & {
   type: "rectangle";
+  // name?: string;
+  // distributionName?: string;
+  // parameters?: Object;
 };
 
 export type ExcalidrawDiamondElement = _ExcalidrawElementBase & {

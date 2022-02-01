@@ -46,6 +46,7 @@ export const KEYS = {
   COMMA: ",",
 
   A: "a",
+  B: "b",
   D: "d",
   E: "e",
   G: "g",

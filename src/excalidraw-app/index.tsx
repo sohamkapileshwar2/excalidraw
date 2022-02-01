@@ -698,6 +698,7 @@ const ExcalidrawWrapper = () => {
         onCollabButtonClick={collabAPI?.onCollabButtonClick}
         isCollaborating={collabAPI?.isCollaborating()}
         onPointerUpdate={collabAPI?.onPointerUpdate}
+        gridModeEnabled={true}
         UIOptions={{
           canvasActions: {
             export: {

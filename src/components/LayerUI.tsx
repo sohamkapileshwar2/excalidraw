@@ -349,7 +349,7 @@ const LayerUI = ({
                       setAppState={setAppState}
                     /> */}
                   </Stack.Row>
-                  {libraryMenu}
+                  {/* {libraryMenu} */}
                 </Stack.Col>
               )}
             </Section>

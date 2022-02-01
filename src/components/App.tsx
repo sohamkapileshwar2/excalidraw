@@ -2387,6 +2387,7 @@ class App extends React.Component<AppProps, AppState> {
     if (isBindingElementType(this.state.elementType)) {
       // Hovering with a selected tool or creating new linear element via click
       // and point
+
       const { draggingElement } = this.state;
       if (isBindingElement(draggingElement)) {
         this.maybeSuggestBindingsForLinearElementAtCoords(
@@ -2458,6 +2459,7 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     const hasDeselectedButton = Boolean(event.buttons);
+
     if (
       hasDeselectedButton ||
       (this.state.elementType !== "selection" &&
@@ -2469,6 +2471,7 @@ class App extends React.Component<AppProps, AppState> {
     const elements = this.scene.getElements();
 
     const selectedElements = getSelectedElements(elements, this.state);
+
     if (
       selectedElements.length === 1 &&
       !isOverScrollBar &&
@@ -2515,6 +2518,7 @@ class App extends React.Component<AppProps, AppState> {
       scenePointer.x,
       scenePointer.y,
     );
+
     if (this.state.elementType === "text") {
       setCursor(
         this.canvas,
