@@ -76,7 +76,7 @@ import { register } from "./register";
 
 const FONT_SIZE_RELATIVE_INCREASE_STEP = 0.1;
 
-const changeProperty = (
+export const changeProperty = (
   elements: readonly ExcalidrawElement[],
   appState: AppState,
   callback: (element: ExcalidrawElement) => ExcalidrawElement,
@@ -980,4 +980,28 @@ export const actionChangeArrowhead = register({
       </fieldset>
     );
   },
+});
+
+export const actionSetBlockProperties = register({
+  name: "setBlockProperties",
+  perform: (elements, appState, _, { focusContainer }) => {
+    if (appState.showBlockProperties) {
+      focusContainer();
+    }
+    return {
+      appState: {
+        ...appState,
+        showBlockProperties: !appState.showBlockProperties,
+      },
+      commitToHistory: false,
+    };
+  },
+  PanelComponent: ({ elements, appState, updateData }) => (
+    <fieldset>
+      <legend>{t("labels.blockProperties")}</legend>
+      <button style={{ width: "100%" }} type="button" onClick={updateData}>
+        {t("labels.setBlockProperties")}
+      </button>
+    </fieldset>
+  ),
 });

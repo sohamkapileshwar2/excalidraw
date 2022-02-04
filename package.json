@@ -19,6 +19,9 @@
     ]
   },
   "dependencies": {
+    "@emotion/react": "11.7.1",
+    "@emotion/styled": "11.6.0",
+    "@mui/material": "5.4.0",
     "@sentry/browser": "6.2.5",
     "@sentry/integrations": "6.2.5",
     "@testing-library/jest-dom": "5.16.1",

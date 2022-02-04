@@ -104,7 +104,9 @@
     "personalLib": "Personal Library",
     "excalidrawLib": "Excalidraw Library",
     "decreaseFontSize": "Decrease font size",
-    "increaseFontSize": "Increase font size"
+    "increaseFontSize": "Increase font size",
+    "setBlockProperties": "Set Block Properties",
+    "blockProperties": "Block Properties"
   },
   "buttons": {
     "clearReset": "Reset the canvas",
@@ -139,6 +141,8 @@
     "zenMode": "Zen mode",
     "exitZenMode": "Exit zen mode",
     "cancel": "Cancel",
+    "ok": "OK",
+    "Save": "Save",
     "clear": "Clear",
     "remove": "Remove",
     "publishLibrary": "Publish",
@@ -280,6 +284,15 @@
     "view": "View",
     "zoomToFit": "Zoom to fit all elements",
     "zoomToSelection": "Zoom to selection"
+  },
+  "blockPropertiesDialog":{
+    "name": "Name",
+    "description": "Description",
+    "block": "Block",
+    "title": "Block Properties",
+    "distribution": "Distribution",
+    "units": "Units",
+    "fittedParameters": "Fitted Parameters"    
   },
   "clearCanvasDialog": {
     "title": "Clear canvas"

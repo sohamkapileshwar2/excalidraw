@@ -103,7 +103,8 @@ export type ActionName =
   | "exportWithDarkMode"
   | "toggleTheme"
   | "increaseFontSize"
-  | "decreaseFontSize";
+  | "decreaseFontSize"
+  | "setBlockProperties";
 
 export type PanelComponentProps = {
   elements: readonly ExcalidrawElement[];

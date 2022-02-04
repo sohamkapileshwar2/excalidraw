@@ -60,6 +60,9 @@ export const SelectedShapeActions = ({
 
   return (
     <div className="panelColumn">
+      {(elementType === "block" ||
+        targetElements.some((element) => element.type === "block")) &&
+        renderAction("setBlockProperties")}
       {((hasStrokeColor(elementType) &&
         elementType !== "image" &&
         commonSelectedType !== "image") ||

@@ -85,11 +85,28 @@ export type InitializedExcalidrawImageElement = MarkNonNullable<
   "fileId"
 >;
 
+export type ParameterType =
+  | {}
+  | {
+      beta: number;
+      eta: number;
+    };
+
+export const DistToParameters = {
+  CannotFail: {},
+  Weibull: {
+    beta: 10,
+    eta: 1000,
+  },
+};
+
 export type ExcalidrawBlockElement = _ExcalidrawElementBase & {
   type: "block";
   name: String;
-  distributionName: "Weibull";
-  parameters: Object;
+  description: String;
+  distributionName: "CannotFail" | "Weibull";
+  units: "Hour";
+  parameters: ParameterType;
 };
 
 /**

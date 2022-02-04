@@ -202,7 +202,9 @@ const restoreElement = (
     case "block":
       return restoreElementWithProperties(element, {
         name: element.name,
+        description: element.description,
         distributionName: element.distributionName,
+        units: element.units,
         parameters: element.parameters,
       });
     // Don't use default case so as to catch a missing an element type case.

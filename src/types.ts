@@ -117,6 +117,7 @@ export type AppState = {
   previousSelectedElementIds: { [id: string]: boolean };
   shouldCacheIgnoreZoom: boolean;
   showHelpDialog: boolean;
+  showBlockProperties: boolean;
   toastMessage: string | null;
   zenModeEnabled: boolean;
   theme: Theme;

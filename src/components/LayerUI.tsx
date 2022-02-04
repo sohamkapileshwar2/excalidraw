@@ -25,6 +25,7 @@ import { MobileMenu } from "./MobileMenu";
 import { PasteChartDialog } from "./PasteChartDialog";
 import { Section } from "./Section";
 import { HelpDialog } from "./HelpDialog";
+import { ShowBlockProperties } from "./ShowBlockProperties";
 import Stack from "./Stack";
 import { Tooltip } from "./Tooltip";
 import { UserList } from "./UserList";
@@ -306,7 +307,11 @@ const LayerUI = ({
           {!viewModeEnabled && (
             <Section heading="shapes">
               {(heading) => (
-                <Stack.Col gap={4} align="start" style={{alignSelf: "center"}}>
+                <Stack.Col
+                  gap={4}
+                  align="start"
+                  style={{ alignSelf: "center" }}
+                >
                   <Stack.Row
                     gap={1}
                     className={clsx("App-toolbar-container", {
@@ -480,6 +485,16 @@ const LayerUI = ({
               pasteDialog: { shown: false, data: null },
             })
           }
+        />
+      )}
+      {appState.showBlockProperties && (
+        <ShowBlockProperties
+          onClose={() => {
+            setAppState({ showBlockProperties: false });
+          }}
+          appState={appState}
+          elements={elements}
+          actionManager={actionManager}
         />
       )}
     </>

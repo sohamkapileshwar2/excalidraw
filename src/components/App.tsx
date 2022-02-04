@@ -3455,7 +3455,9 @@ class App extends React.Component<AppProps, AppState> {
     const element = newBlockElement({
       type: "block",
       name: "",
-      distributionName: "Weibull",
+      description: "",
+      distributionName: "CannotFail",
+      units: "Hour",
       parameters: {},
       x: gridX,
       y: gridY,
