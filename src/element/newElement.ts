@@ -83,6 +83,7 @@ const _newElementBase = <T extends ExcalidrawElement>(
     isDeleted: false as false,
     boundElements,
     updated: getUpdatedTimestamp(),
+    isExisting: rest.isExisting,
   };
   return element;
 };

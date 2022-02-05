@@ -132,6 +132,7 @@ export class API {
           type: type as "rectangle" | "diamond" | "ellipse",
           width,
           height,
+          isExisting: false,
           ...base,
         });
         break;
@@ -144,6 +145,7 @@ export class API {
           textAlign: rest.textAlign ?? appState.currentItemTextAlign,
           verticalAlign: rest.verticalAlign ?? DEFAULT_VERTICAL_ALIGN,
           containerId: rest.containerId ?? undefined,
+          isExisting: false,
         });
         element.width = width;
         element.height = height;
@@ -152,6 +154,7 @@ export class API {
         element = newFreeDrawElement({
           type: type as "freedraw",
           simulatePressure: true,
+          isExisting: false,
           ...base,
         });
         break;
@@ -161,6 +164,7 @@ export class API {
           type: type as "arrow" | "line",
           startArrowhead: null,
           endArrowhead: null,
+          isExisting: false,
           ...base,
         });
         break;

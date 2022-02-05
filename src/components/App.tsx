@@ -436,7 +436,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   public render() {
-    console.log(this.state , this.scene.getElements())
+    // console.log(this.state, this.scene.getElements());
     const { zenModeEnabled, viewModeEnabled } = this.state;
 
     const {
@@ -1467,6 +1467,7 @@ class App extends React.Component<AppProps, AppState> {
       fontFamily: this.state.currentItemFontFamily,
       textAlign: this.state.currentItemTextAlign,
       verticalAlign: DEFAULT_VERTICAL_ALIGN,
+      isExisting: false,
     });
 
     this.scene.replaceAllElements([
@@ -2179,6 +2180,7 @@ class App extends React.Component<AppProps, AppState> {
             : DEFAULT_VERTICAL_ALIGN,
           containerId: container?.id ?? undefined,
           groupIds: container?.groupIds ?? [],
+          isExisting: false,
         });
 
     this.setState({ editingElement: element });
@@ -3233,6 +3235,7 @@ class App extends React.Component<AppProps, AppState> {
       opacity: this.state.currentItemOpacity,
       strokeSharpness: this.state.currentItemLinearStrokeSharpness,
       simulatePressure: event.pressure === 0.5,
+      isExisting: false,
     });
 
     this.setState((prevState) => ({
@@ -3288,6 +3291,7 @@ class App extends React.Component<AppProps, AppState> {
       roughness: this.state.currentItemRoughness,
       opacity: this.state.currentItemOpacity,
       strokeSharpness: this.state.currentItemLinearStrokeSharpness,
+      isExisting: false,
     });
 
     return element;
@@ -3375,6 +3379,7 @@ class App extends React.Component<AppProps, AppState> {
         strokeSharpness: this.state.currentItemLinearStrokeSharpness,
         startArrowhead,
         endArrowhead,
+        isExisting: false,
       });
       this.setState((prevState) => ({
         selectedElementIds: {
@@ -3423,6 +3428,7 @@ class App extends React.Component<AppProps, AppState> {
       roughness: this.state.currentItemRoughness,
       opacity: this.state.currentItemOpacity,
       strokeSharpness: this.state.currentItemStrokeSharpness,
+      isExisting: false,
     });
 
     if (element.type === "selection") {
@@ -3469,6 +3475,7 @@ class App extends React.Component<AppProps, AppState> {
       roughness: this.state.currentItemRoughness,
       opacity: this.state.currentItemOpacity,
       strokeSharpness: this.state.currentItemStrokeSharpness,
+      isExisting: false,
     });
 
     this.scene.replaceAllElements([

@@ -52,6 +52,7 @@ type _ExcalidrawElementBase = Readonly<{
     | null;
   /** epoch (ms) timestamp of last element update */
   updated: number;
+  isExisting: boolean;
 }>;
 
 export type ExcalidrawSelectionElement = _ExcalidrawElementBase & {

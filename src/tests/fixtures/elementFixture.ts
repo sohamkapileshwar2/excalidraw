@@ -22,6 +22,7 @@ const elementBase: Omit<ExcalidrawElement, "type"> = {
   isDeleted: false,
   boundElements: null,
   updated: 1,
+  isExisting: false,
 };
 
 export const rectangleFixture: ExcalidrawElement = {

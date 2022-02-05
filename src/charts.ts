@@ -192,6 +192,7 @@ const chartXLabels = (
         fontSize: 16,
         textAlign: "center",
         verticalAlign: "top",
+        isExisting: false,
       });
     }) || []
   );
@@ -212,6 +213,7 @@ const chartYLabels = (
     y: y - BAR_GAP,
     text: "0",
     textAlign: "right",
+    isExisting: false,
   });
 
   const maxYLabel = newTextElement({
@@ -222,6 +224,7 @@ const chartYLabels = (
     y: y - BAR_HEIGHT - minYLabel.height / 2,
     text: Math.max(...spreadsheet.values).toLocaleString(),
     textAlign: "right",
+    isExisting: false,
   });
 
   return [minYLabel, maxYLabel];
@@ -249,6 +252,7 @@ const chartLines = (
       [0, 0],
       [chartWidth, 0],
     ],
+    isExisting: false,
   });
 
   const yLine = newLinearElement({
@@ -265,6 +269,7 @@ const chartLines = (
       [0, 0],
       [0, -chartHeight],
     ],
+    isExisting: false,
   });
 
   const maxLine = newLinearElement({
@@ -283,6 +288,7 @@ const chartLines = (
       [0, 0],
       [chartWidth, 0],
     ],
+    isExisting: false,
   });
 
   return [xLine, yLine, maxLine];
@@ -310,6 +316,7 @@ const chartBaseElements = (
         strokeSharpness: "sharp",
         strokeStyle: "solid",
         textAlign: "center",
+        isExisting: false,
       })
     : null;
 
@@ -326,6 +333,7 @@ const chartBaseElements = (
         strokeColor: colors.elementStroke[0],
         fillStyle: "solid",
         opacity: 6,
+        isExisting: false,
       })
     : null;
 
@@ -358,6 +366,7 @@ const chartTypeBar = (
       y: y - barHeight - BAR_GAP,
       width: BAR_WIDTH,
       height: barHeight,
+      isExisting: false,
     });
   });
 
@@ -410,6 +419,7 @@ const chartTypeLine = (
     width: maxX - minX,
     strokeWidth: 2,
     points: points as any,
+    isExisting: false,
   });
 
   const dots = spreadsheet.values.map((value, index) => {
@@ -426,6 +436,7 @@ const chartTypeLine = (
       y: y + cy - BAR_GAP * 2,
       width: BAR_GAP,
       height: BAR_GAP,
+      isExisting: false,
     });
   });
 
@@ -448,6 +459,7 @@ const chartTypeLine = (
         [0, 0],
         [0, cy],
       ],
+      isExisting: false,
     });
   });
 
