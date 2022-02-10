@@ -26,7 +26,16 @@ export const SHAPES = [
     icon: (
       // fa-square
       <svg viewBox="0 0 448 512">
-        <path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z" />
+        <rect
+          y="40"
+          width="420"
+          height="420"
+          style={{
+            fill: "#ffffff",
+            strokeWidth: 30,
+            stroke: "black",
+          }}
+        />
       </svg>
     ),
     value: "rectangle",
@@ -127,5 +136,11 @@ export const findShapeByKey = (key: string) => {
           : (shape.key as readonly string[]).includes(key)))
     );
   });
-  return shape?.value || null;
+  const allowedValues: (string | undefined)[] = [
+    "selection",
+    "block",
+    "rectangle",
+    "text",
+  ];
+  if (allowedValues.includes(shape?.value)) return shape?.value || null;
 };
