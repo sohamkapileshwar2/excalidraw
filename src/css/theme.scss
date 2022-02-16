@@ -37,14 +37,17 @@
   --space-factor: 0.25rem;
   --text-primary-color: #{$oc-gray-8};
 
-  --color-primary: #6965db;
-  --color-primary-chubb: #625ee0; // to offset Chubb illusion
-  --color-primary-darker: #5b57d1;
-  --color-primary-darkest: #4a47b1;
+  --color-primary: #1976d2;
+  --color-primary-chubb: #1976d2; // to offset Chubb illusion
+  --color-primary-darker: #1976d2;
+  --color-primary-darkest: #1976d2;
   --color-primary-light: #e2e1fc;
 
   --border-radius-md: 0.375rem;
   --border-radius-lg: 0.5rem;
+
+  --drawerWidth: 240px;
+  --headerHeight: 64px;
 
   &.theme--dark {
     background: $oc-black;
@@ -84,10 +87,10 @@
     --shadow-island: 1px 1px 5px #{transparentize($oc-black, 0.7)};
     --text-primary-color: #{$oc-gray-4};
 
-    --color-primary: #5650f0;
-    --color-primary-chubb: #726dff; // to offset Chubb illusion
-    --color-primary-darker: #4b46d8;
-    --color-primary-darkest: #3e39be;
+    --color-primary: #1976d2;
+    --color-primary-chubb: #1976d2; // to offset Chubb illusion
+    --color-primary-darker: #1976d2;
+    --color-primary-darkest: #1976d2;
     --color-primary-light: #3f3d64;
   }
 }

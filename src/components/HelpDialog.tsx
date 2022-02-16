@@ -145,20 +145,24 @@ export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
                   shortcuts={["V", "1"]}
                 />
                 <Shortcut
-                  label={t("toolBar.rectangle")}
-                  shortcuts={["R", "2"]}
+                  label={t("toolBar.block")}
+                  shortcuts={["B", "2"]}
                 />
-                <Shortcut label={t("toolBar.diamond")} shortcuts={["D", "3"]} />
+                <Shortcut
+                  label={t("toolBar.rectangle")}
+                  shortcuts={["R", "3"]}
+                />
+                {/* <Shortcut label={t("toolBar.diamond")} shortcuts={["D", "3"]} />
                 <Shortcut label={t("toolBar.ellipse")} shortcuts={["E", "4"]} />
                 <Shortcut label={t("toolBar.arrow")} shortcuts={["A", "5"]} />
                 <Shortcut label={t("toolBar.line")} shortcuts={["P", "6"]} />
                 <Shortcut
                   label={t("toolBar.freedraw")}
                   shortcuts={["Shift + P", "X", "7"]}
-                />
-                <Shortcut label={t("toolBar.text")} shortcuts={["T", "8"]} />
-                <Shortcut label={t("toolBar.image")} shortcuts={["9"]} />
-                <Shortcut label={t("toolBar.library")} shortcuts={["0"]} />
+                /> */}
+                <Shortcut label={t("toolBar.text")} shortcuts={["T", "9"]} />
+                {/* <Shortcut label={t("toolBar.image")} shortcuts={["9"]} />
+                <Shortcut label={t("toolBar.library")} shortcuts={["0"]} /> */}
                 <Shortcut
                   label={t("helpDialog.editSelectedShape")}
                   shortcuts={[
@@ -180,7 +184,7 @@ export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
                     getShortcutKey("CtrlOrCmd+Enter"),
                   ]}
                 />
-                <Shortcut
+                {/* <Shortcut
                   label={t("helpDialog.curvedArrow")}
                   shortcuts={[
                     "A",
@@ -199,12 +203,12 @@ export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
                     t("helpDialog.click"),
                   ]}
                   isOr={false}
-                />
+                /> */}
                 <Shortcut label={t("toolBar.lock")} shortcuts={["Q"]} />
-                <Shortcut
+                {/* <Shortcut
                   label={t("helpDialog.preventBinding")}
                   shortcuts={[getShortcutKey("CtrlOrCmd")]}
-                />
+                /> */}
               </ShortcutIsland>
               <ShortcutIsland caption={t("helpDialog.view")}>
                 <Shortcut
@@ -232,10 +236,10 @@ export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
                   label={t("buttons.zenMode")}
                   shortcuts={[getShortcutKey("Alt+Z")]}
                 />
-                <Shortcut
+                {/* <Shortcut
                   label={t("labels.showGrid")}
                   shortcuts={[getShortcutKey("CtrlOrCmd+'")]}
-                />
+                /> */}
                 <Shortcut
                   label={t("labels.viewMode")}
                   shortcuts={[getShortcutKey("Alt+R")]}
@@ -244,10 +248,10 @@ export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
                   label={t("labels.toggleTheme")}
                   shortcuts={[getShortcutKey("Alt+Shift+D")]}
                 />
-                <Shortcut
+                {/* <Shortcut
                   label={t("stats.title")}
                   shortcuts={[getShortcutKey("Alt+/")]}
-                />
+                /> */}
               </ShortcutIsland>
             </Column>
             <Column>
@@ -260,12 +264,12 @@ export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
                   label={t("labels.multiSelect")}
                   shortcuts={[getShortcutKey(`Shift+${t("helpDialog.click")}`)]}
                 />
-                <Shortcut
+                {/* <Shortcut
                   label={t("helpDialog.deepSelect")}
                   shortcuts={[
                     getShortcutKey(`CtrlOrCmd+${t("helpDialog.click")}`),
                   ]}
-                />
+                /> */}
                 <Shortcut
                   label={t("helpDialog.deepBoxSelect")}
                   shortcuts={[
@@ -308,7 +312,7 @@ export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
                   label={t("labels.delete")}
                   shortcuts={[getShortcutKey("Del")]}
                 />
-                <Shortcut
+                {/* <Shortcut
                   label={t("labels.sendToBack")}
                   shortcuts={[
                     isDarwin
@@ -347,7 +351,7 @@ export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
                 <Shortcut
                   label={t("labels.alignRight")}
                   shortcuts={[getShortcutKey("CtrlOrCmd+Shift+Right")]}
-                />
+                /> */}
                 <Shortcut
                   label={t("labels.duplicateSelection")}
                   shortcuts={[

@@ -4,6 +4,10 @@
   &.excalidraw-modal-container {
     position: absolute;
     z-index: 10;
+    margin-left: var(--drawerWidth);
+    width: calc(100% - var(--drawerWidth));
+    height: 117%;
+    margin-top: var(--headerHeight);
   }
 
   .Modal {
