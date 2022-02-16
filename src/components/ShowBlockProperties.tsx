@@ -169,7 +169,7 @@ type ShowBlockPropertiesProps = {
 type ShowBlockPropertiesState = {
   name: string;
   description: string;
-  distributionName: "CannotFail" | "Weibull";
+  distributionName: "CannotFail" | "Weibull" ;
   units: "Hour";
   parameters: ParameterType;
 };
@@ -283,7 +283,7 @@ export class ShowBlockProperties extends React.Component<
                     callback={(
                       event: any,
                       index: number,
-                      option: "CannotFail" | "Weibull",
+                      option: "CannotFail" | "Weibull"
                     ) => {
                       this.changeState("distributionName", option).then((_) => {
                         this.changeState(

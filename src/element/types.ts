@@ -91,7 +91,24 @@ export type ParameterType =
   | {
       beta: number;
       eta: number;
-    };
+    }
+  | {
+      beta: number;
+      eta: number;
+      gamma: number;
+    }  
+  | {
+    mean: number;
+    variance: number;
+  }
+  | {
+      lambda: number;
+    }
+  | {
+      lambda: number;
+      t: number;
+  }
+ 
 
 export const DistToParameters = {
   CannotFail: {},
@@ -99,6 +116,24 @@ export const DistToParameters = {
     beta: 10,
     eta: 1000,
   },
+  Weibull3P: {
+    beta: 10,
+    eta: 1000,
+    gamma: 40
+  },
+  Normal: {
+    mean: 10,
+    variance: 1000,
+  },
+  Exponential1P: {
+    lambda:10
+  },
+  Exponential2P: {
+    lambda:10,
+    t:10
+  }
+
+  
 };
 
 export type ExcalidrawBlockElement = _ExcalidrawElementBase & {
