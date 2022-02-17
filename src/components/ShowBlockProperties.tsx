@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Distribution,
   DistToParameters,
   ExcalidrawElement,
-  NonDeletedExcalidrawElement,
-  ParameterType,
 } from "../element/types";
 import { t } from "../i18n";
 import { AppState } from "../types";
@@ -430,9 +428,7 @@ export class ShowBlockProperties extends React.Component<
             </Columns>
           </Section>
 
-          <Section
-            title={t("blockPropertiesDialog.preventiveMaintenance")}
-          >
+          <Section title={t("blockPropertiesDialog.preventiveMaintenance")}>
             <Columns>
               <Column>
                 <SubSection caption={t("blockPropertiesDialog.distribution")}>
