@@ -437,7 +437,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   public render() {
-    console.log(this.state, this.scene.getElements());
+    // console.log(this.state, this.scene.getElements());
     const { zenModeEnabled, viewModeEnabled } = this.state;
 
     const {
