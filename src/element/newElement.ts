@@ -14,6 +14,7 @@ import {
   ExcalidrawRectangleElement,
   ExcalidrawBlockElement,
   ParameterType,
+  Distribution,
 } from "../element/types";
 import { getFontString, getUpdatedTimestamp, isTestEnv } from "../utils";
 import { randomInteger, randomId } from "../random";
@@ -100,18 +101,20 @@ export const newBlockElement = (
     type: ExcalidrawBlockElement["type"];
     name: String;
     description: String;
-    distributionName: "CannotFail" | "Weibull";
     units: "Hour";
-    parameters: ParameterType;
+    failureDistribution: Distribution;
+    correctiveMaintenanceDistribution: Distribution;
+    preventiveMaintenanceDistribution: Distribution;
   } & ElementConstructorOpts,
 ): NonDeleted<ExcalidrawBlockElement> => {
   return {
     ..._newElementBase<ExcalidrawBlockElement>(opts.type, opts),
     name: opts.name,
     description: opts.description,
-    distributionName: opts.distributionName,
     units: opts.units,
-    parameters: opts.parameters,
+    failureDistribution: opts.failureDistribution,
+    correctiveMaintenanceDistribution: opts.correctiveMaintenanceDistribution,
+    preventiveMaintenanceDistribution: opts.preventiveMaintenanceDistribution,
   };
 };
 

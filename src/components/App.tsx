@@ -145,6 +145,7 @@ import {
   ExcalidrawImageElement,
   FileId,
   ExcalidrawBlockElement,
+  DistToParameters,
 } from "../element/types";
 import { getCenter, getDistance } from "../gesture";
 import {
@@ -436,7 +437,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   public render() {
-    // console.log(this.state, this.scene.getElements());
+    console.log(this.state, this.scene.getElements());
     const { zenModeEnabled, viewModeEnabled } = this.state;
 
     const {
@@ -3462,9 +3463,19 @@ class App extends React.Component<AppProps, AppState> {
       type: "block",
       name: "",
       description: "",
-      distributionName: "CannotFail",
       units: "Hour",
-      parameters: {},
+      failureDistribution: {
+        distributionName: "Weibull",
+        parameters: DistToParameters['Weibull']
+      },
+      correctiveMaintenanceDistribution: {
+        distributionName: "DefaultNone",
+        parameters: DistToParameters['DefaultNone']
+      },
+      preventiveMaintenanceDistribution: {
+        distributionName: "DefaultNone",
+        parameters:  DistToParameters['DefaultNone']
+      },
       x: gridX,
       y: gridY,
       strokeColor: this.state.currentItemStrokeColor,

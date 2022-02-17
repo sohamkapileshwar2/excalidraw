@@ -86,6 +86,30 @@ export type InitializedExcalidrawImageElement = MarkNonNullable<
   "fileId"
 >;
 
+export const DistToParameters = {
+  DefaultNone: {},
+  Weibull: {
+    beta: 1.5,
+    eta: 1000,
+  },
+  Weibull3P: {
+    beta: 10,
+    eta: 1000,
+    gamma: 40,
+  },
+  Normal: {
+    mean: 10,
+    variance: 1000,
+  },
+  Exponential1P: {
+    lambda: 10,
+  },
+  Exponential2P: {
+    lambda: 10,
+    t: 10,
+  },
+};
+
 export type ParameterType =
   | {}
   | {
@@ -96,53 +120,32 @@ export type ParameterType =
       beta: number;
       eta: number;
       gamma: number;
-    }  
+    }
   | {
-    mean: number;
-    variance: number;
-  }
+      mean: number;
+      variance: number;
+    }
   | {
       lambda: number;
     }
   | {
       lambda: number;
       t: number;
-  }
- 
+    };
 
-export const DistToParameters = {
-  CannotFail: {},
-  Weibull: {
-    beta: 10,
-    eta: 1000,
-  },
-  Weibull3P: {
-    beta: 10,
-    eta: 1000,
-    gamma: 40
-  },
-  Normal: {
-    mean: 10,
-    variance: 1000,
-  },
-  Exponential1P: {
-    lambda:10
-  },
-  Exponential2P: {
-    lambda:10,
-    t:10
-  }
-
-  
+export type Distribution = {
+  distributionName: "DefaultNone" | "Weibull" | "Normal";
+  parameters: ParameterType;
 };
 
 export type ExcalidrawBlockElement = _ExcalidrawElementBase & {
   type: "block";
   name: String;
   description: String;
-  distributionName: "CannotFail" | "Weibull";
   units: "Hour";
-  parameters: ParameterType;
+  failureDistribution: Distribution;
+  correctiveMaintenanceDistribution: Distribution;
+  preventiveMaintenanceDistribution: Distribution;
 };
 
 /**

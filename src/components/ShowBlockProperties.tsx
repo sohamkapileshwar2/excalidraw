@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Distribution,
   DistToParameters,
   ExcalidrawElement,
   NonDeletedExcalidrawElement,
@@ -169,9 +170,10 @@ type ShowBlockPropertiesProps = {
 type ShowBlockPropertiesState = {
   name: string;
   description: string;
-  distributionName: "CannotFail" | "Weibull" ;
   units: "Hour";
-  parameters: ParameterType;
+  failureDistribution: Distribution;
+  correctiveMaintenanceDistribution: Distribution;
+  preventiveMaintenanceDistribution: Distribution;
 };
 
 export class ShowBlockProperties extends React.Component<
@@ -204,16 +206,29 @@ export class ShowBlockProperties extends React.Component<
       ? {
           name: Element.name,
           description: Element.description,
-          distributionName: Element.distributionName,
           units: Element.units,
-          parameters: Element.parameters,
+          failureDistribution: Element.failureDistribution,
+          correctiveMaintenanceDistribution:
+            Element.correctiveMaintenanceDistribution,
+          preventiveMaintenanceDistribution:
+            Element.preventiveMaintenanceDistribution,
         }
       : {
           name: "",
           description: "",
-          distributionName: "CannotFail",
           units: "Hour",
-          parameters: {},
+          failureDistribution: {
+            distributionName: "Weibull",
+            parameters: DistToParameters["Weibull"],
+          },
+          correctiveMaintenanceDistribution: {
+            distributionName: "DefaultNone",
+            parameters: DistToParameters["DefaultNone"],
+          },
+          preventiveMaintenanceDistribution: {
+            distributionName: "DefaultNone",
+            parameters: DistToParameters["DefaultNone"],
+          },
         };
 
     this.setState = this.setState.bind(this);
@@ -234,11 +249,15 @@ export class ShowBlockProperties extends React.Component<
   }
 
   changeState = (
-    key: "distributionName" | "units" | "parameters",
+    key:
+      | "failureDistribution"
+      | "correctiveMaintenanceDistribution"
+      | "preventiveMaintenanceDistribution",
+    key2: "distributionName" | "parameters",
     value: any,
   ): Promise<unknown> => {
     const newState: any = { ...this.state };
-    newState[key] = value;
+    newState[key][key2] = value;
     return this.setStatePromise(newState);
     // console.log(elementState, newState);
   };
@@ -276,17 +295,22 @@ export class ShowBlockProperties extends React.Component<
                 </SubSection>
                 <SubSection caption={t("blockPropertiesDialog.distribution")}>
                   <SimpleListMenu
-                    defaultIndex={["CannotFail", "Weibull"].indexOf(
-                      this.state.distributionName,
+                    defaultIndex={["Weibull"].indexOf(
+                      this.state.failureDistribution.distributionName,
                     )}
-                    options={["CannotFail", "Weibull"]}
+                    options={["Weibull"]}
                     callback={(
                       event: any,
                       index: number,
-                      option: "CannotFail" | "Weibull"
+                      option: "Weibull",
                     ) => {
-                      this.changeState("distributionName", option).then((_) => {
+                      this.changeState(
+                        "failureDistribution",
+                        "distributionName",
+                        option,
+                      ).then((_) => {
                         this.changeState(
+                          "failureDistribution",
                           "parameters",
                           DistToParameters[option],
                         );
@@ -299,7 +323,7 @@ export class ShowBlockProperties extends React.Component<
                     defaultIndex={["Hour"].indexOf(this.state.units)}
                     options={["Hour"]}
                     callback={(event: any, index: number, option: any) => {
-                      this.changeState("units", option);
+                      // this.changeState("units", option);
                     }}
                   />
                 </SubSection>
@@ -317,7 +341,9 @@ export class ShowBlockProperties extends React.Component<
                 <SubSection
                   caption={t("blockPropertiesDialog.fittedParameters")}
                 >
-                  {Object.entries(this.state.parameters).map((item, index) => {
+                  {Object.entries(
+                    this.state.failureDistribution.parameters,
+                  ).map((item, index) => {
                     return (
                       <TextFieldWithName
                         key={item[0]}
@@ -325,10 +351,14 @@ export class ShowBlockProperties extends React.Component<
                         value={item[1]}
                         callback={(enteredValue: number) => {
                           const newParameters: any = {
-                            ...this.state.parameters,
+                            ...this.state.failureDistribution.parameters,
                           };
                           newParameters[item[0]] = enteredValue;
-                          this.changeState("parameters", newParameters);
+                          this.changeState(
+                            "failureDistribution",
+                            "parameters",
+                            newParameters,
+                          );
                         }}
                       />
                     );
@@ -337,6 +367,133 @@ export class ShowBlockProperties extends React.Component<
               </Column>
             </Columns>
           </Section>
+
+          <Section title={t("blockPropertiesDialog.correctiveMaintenance")}>
+            <Columns>
+              <Column>
+                <SubSection caption={t("blockPropertiesDialog.distribution")}>
+                  <SimpleListMenu
+                    defaultIndex={["DefaultNone", "Normal"].indexOf(
+                      this.state.correctiveMaintenanceDistribution
+                        .distributionName,
+                    )}
+                    options={["DefaultNone", "Normal"]}
+                    callback={(
+                      event: any,
+                      index: number,
+                      option: "DefaultNone" | "Normal",
+                    ) => {
+                      this.changeState(
+                        "correctiveMaintenanceDistribution",
+                        "distributionName",
+                        option,
+                      ).then((_) => {
+                        this.changeState(
+                          "correctiveMaintenanceDistribution",
+                          "parameters",
+                          DistToParameters[option],
+                        );
+                      });
+                    }}
+                  />
+                </SubSection>
+              </Column>
+              <Column>
+                <SubSection
+                  caption={t("blockPropertiesDialog.fittedParameters")}
+                >
+                  {Object.entries(
+                    this.state.correctiveMaintenanceDistribution.parameters,
+                  ).map((item, index) => {
+                    return (
+                      <TextFieldWithName
+                        key={item[0]}
+                        parameterName={item[0]}
+                        value={item[1]}
+                        callback={(enteredValue: number) => {
+                          const newParameters: any = {
+                            ...this.state.correctiveMaintenanceDistribution
+                              .parameters,
+                          };
+                          newParameters[item[0]] = enteredValue;
+                          this.changeState(
+                            "correctiveMaintenanceDistribution",
+                            "parameters",
+                            newParameters,
+                          );
+                        }}
+                      />
+                    );
+                  })}
+                </SubSection>
+              </Column>
+            </Columns>
+          </Section>
+
+          <Section
+            title={t("blockPropertiesDialog.preventiveMaintenance")}
+          >
+            <Columns>
+              <Column>
+                <SubSection caption={t("blockPropertiesDialog.distribution")}>
+                  <SimpleListMenu
+                    defaultIndex={["DefaultNone", "Normal"].indexOf(
+                      this.state.preventiveMaintenanceDistribution
+                        .distributionName,
+                    )}
+                    options={["DefaultNone", "Normal"]}
+                    callback={(
+                      event: any,
+                      index: number,
+                      option: "DefaultNone" | "Normal",
+                    ) => {
+                      this.changeState(
+                        "preventiveMaintenanceDistribution",
+                        "distributionName",
+                        option,
+                      ).then((_) => {
+                        this.changeState(
+                          "preventiveMaintenanceDistribution",
+                          "parameters",
+                          DistToParameters[option],
+                        );
+                      });
+                    }}
+                  />
+                </SubSection>
+              </Column>
+              <Column>
+                <SubSection
+                  caption={t("blockPropertiesDialog.fittedParameters")}
+                >
+                  {Object.entries(
+                    this.state.preventiveMaintenanceDistribution.parameters,
+                  ).map((item, index) => {
+                    return (
+                      <TextFieldWithName
+                        key={item[0]}
+                        parameterName={item[0]}
+                        value={item[1]}
+                        callback={(enteredValue: number) => {
+                          const newParameters: any = {
+                            ...this.state.preventiveMaintenanceDistribution
+                              .parameters,
+                          };
+                          newParameters[item[0]] = enteredValue;
+                          this.changeState(
+                            "preventiveMaintenanceDistribution",
+                            "parameters",
+                            newParameters,
+                          );
+                        }}
+                      />
+                    );
+                  })}
+                </SubSection>
+              </Column>
+            </Columns>
+          </Section>
+
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button
               style={{ marginRight: "10px", width: "70px", height: "35px" }}

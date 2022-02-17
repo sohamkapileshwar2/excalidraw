@@ -292,7 +292,9 @@
     "title": "Block Properties",
     "distribution": "Distribution",
     "units": "Units",
-    "fittedParameters": "Fitted Parameters"    
+    "fittedParameters": "Fitted Parameters",
+    "correctiveMaintenance": "Corrective Maintenance",
+    "preventiveMaintenance": "Preventive Maintenance"    
   },
   "clearCanvasDialog": {
     "title": "Clear canvas"

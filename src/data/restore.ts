@@ -204,9 +204,12 @@ const restoreElement = (
       return restoreElementWithProperties(element, {
         name: element.name,
         description: element.description,
-        distributionName: element.distributionName,
         units: element.units,
-        parameters: element.parameters,
+        failureDistribution: element.failureDistribution,
+        correctiveMaintenanceDistribution:
+          element.correctiveMaintenanceDistribution,
+        preventiveMaintenanceDistribution:
+          element.preventiveMaintenanceDistribution,
       });
     // Don't use default case so as to catch a missing an element type case.
     // We also don't want to throw, but instead return void so we filter
