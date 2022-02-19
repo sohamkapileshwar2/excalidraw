@@ -80,10 +80,25 @@ const SubSection = (props: {
 const TextField = (props: {
   placeholder: string;
   initialValue?: string;
+  fieldType: "String" | "Number";
   attributeName: string;
   elementState: any;
   setElementState: any;
 }) => {
+  const fieldOnChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fieldType: "String" | "Number",
+  ) => {
+    const newState = { ...props.elementState };
+    if (fieldType === "String") {
+      newState[props.attributeName] = event.target.value;
+    } else if (fieldType === "Number") {
+      newState[props.attributeName] = Number(event.target.value);
+    }
+
+    props.setElementState(newState);
+  };
+
   return (
     <div className="blockPropertiesDialog--field">
       <div
@@ -100,9 +115,7 @@ const TextField = (props: {
           placeholder={props.placeholder}
           defaultValue={props.initialValue ? props.initialValue : ""}
           onChange={(event) => {
-            const newState = { ...props.elementState };
-            newState[props.attributeName] = event.target.value;
-            props.setElementState(newState);
+            fieldOnChange(event, props.fieldType);
           }}
         />
       </div>
@@ -169,9 +182,14 @@ type ShowBlockPropertiesState = {
   name: string;
   description: string;
   units: "Hour";
+  initialAge: number;
   failureDistribution: Distribution;
   correctiveMaintenanceDistribution: Distribution;
+  RF_corrective: number;
   preventiveMaintenanceDistribution: Distribution;
+  preventiveMaintenanceType: 0 | 1;
+  maintenanceDuration: number;
+  RF_preventive: number;
 };
 
 export class ShowBlockProperties extends React.Component<
@@ -205,28 +223,39 @@ export class ShowBlockProperties extends React.Component<
           name: Element.name,
           description: Element.description,
           units: Element.units,
+          initialAge: Element.initialAge,
           failureDistribution: Element.failureDistribution,
           correctiveMaintenanceDistribution:
             Element.correctiveMaintenanceDistribution,
+          RF_corrective: Element.RF_corrective,
           preventiveMaintenanceDistribution:
             Element.preventiveMaintenanceDistribution,
+
+          preventiveMaintenanceType: Element.preventiveMaintenanceType,
+          maintenanceDuration: Element.maintenanceDuration,
+          RF_preventive: Element.RF_preventive,
         }
       : {
           name: "",
           description: "",
           units: "Hour",
+          initialAge: 0,
           failureDistribution: {
             distributionName: "Weibull",
             parameters: DistToParameters["Weibull"],
           },
           correctiveMaintenanceDistribution: {
-            distributionName: "DefaultNone",
-            parameters: DistToParameters["DefaultNone"],
+            distributionName: "Normal",
+            parameters: DistToParameters["Normal"],
           },
+          RF_corrective: 0,
           preventiveMaintenanceDistribution: {
             distributionName: "DefaultNone",
             parameters: DistToParameters["DefaultNone"],
           },
+          preventiveMaintenanceType: 0,
+          maintenanceDuration: 0,
+          RF_preventive: 0,
         };
 
     this.setState = this.setState.bind(this);
@@ -286,9 +315,19 @@ export class ShowBlockProperties extends React.Component<
                   <TextField
                     placeholder="Block Name"
                     initialValue={this.state.name}
+                    fieldType="String"
                     attributeName="name"
                     elementState={this.state}
                     setElementState={this.setState}
+                  />
+                </SubSection>
+                <SubSection caption={t("blockPropertiesDialog.units")}>
+                  <SimpleListMenu
+                    defaultIndex={["Hour"].indexOf(this.state.units)}
+                    options={["Hour"]}
+                    callback={(event: any, index: number, option: any) => {
+                      // this.changeState("units", option);
+                    }}
                   />
                 </SubSection>
                 <SubSection caption={t("blockPropertiesDialog.distribution")}>
@@ -316,22 +355,24 @@ export class ShowBlockProperties extends React.Component<
                     }}
                   />
                 </SubSection>
-                <SubSection caption={t("blockPropertiesDialog.units")}>
-                  <SimpleListMenu
-                    defaultIndex={["Hour"].indexOf(this.state.units)}
-                    options={["Hour"]}
-                    callback={(event: any, index: number, option: any) => {
-                      // this.changeState("units", option);
-                    }}
-                  />
-                </SubSection>
               </Column>
               <Column>
                 <SubSection caption={t("blockPropertiesDialog.description")}>
                   <TextField
                     placeholder="Block Description"
                     initialValue={this.state.description}
+                    fieldType="String"
                     attributeName="description"
+                    elementState={this.state}
+                    setElementState={this.setState}
+                  />
+                </SubSection>
+                <SubSection caption={t("blockPropertiesDialog.currentAge")}>
+                  <TextField
+                    placeholder="Current Age"
+                    initialValue={String(this.state.initialAge)}
+                    fieldType="Number"
+                    attributeName="initialAge"
                     elementState={this.state}
                     setElementState={this.setState}
                   />
@@ -395,6 +436,16 @@ export class ShowBlockProperties extends React.Component<
                     }}
                   />
                 </SubSection>
+                <SubSection caption={t("blockPropertiesDialog.RF")}>
+                  <TextField
+                    placeholder="Restoration Factor for corrective maintenance"
+                    initialValue={String(this.state.RF_corrective)}
+                    fieldType="Number"
+                    attributeName="RF_corrective"
+                    elementState={this.state}
+                    setElementState={this.setState}
+                  />
+                </SubSection>
               </Column>
               <Column>
                 <SubSection
@@ -431,6 +482,25 @@ export class ShowBlockProperties extends React.Component<
           <Section title={t("blockPropertiesDialog.preventiveMaintenance")}>
             <Columns>
               <Column>
+                <SubSection caption={t("blockPropertiesDialog.type")}>
+                  <SimpleListMenu
+                    defaultIndex={[0, 1].indexOf(
+                      this.state.preventiveMaintenanceType,
+                    )}
+                    options={["Time Based", "Age Based"]}
+                    callback={(event: any, index: number, option: any) => {
+                      // console.log(option)
+                      const newState: any = {
+                        ...this.state,
+                        preventiveMaintenanceType: [
+                          "Time Based",
+                          "Age Based",
+                        ].indexOf(option),
+                      };
+                      this.setState(newState);
+                    }}
+                  />
+                </SubSection>
                 <SubSection caption={t("blockPropertiesDialog.distribution")}>
                   <SimpleListMenu
                     defaultIndex={["DefaultNone", "Normal"].indexOf(
@@ -457,8 +527,28 @@ export class ShowBlockProperties extends React.Component<
                     }}
                   />
                 </SubSection>
+                <SubSection caption={t("blockPropertiesDialog.RF")}>
+                  <TextField
+                    placeholder="Restoration Factor for preventive maintenance"
+                    initialValue={String(this.state.RF_preventive)}
+                    fieldType="Number"
+                    attributeName="RF_preventive"
+                    elementState={this.state}
+                    setElementState={this.setState}
+                  />
+                </SubSection>
               </Column>
               <Column>
+                <SubSection caption={t("blockPropertiesDialog.interval")}>
+                  <TextField
+                    placeholder="Fixed Interval for preventive maintenance"
+                    initialValue={String(this.state.maintenanceDuration)}
+                    fieldType="Number"
+                    attributeName="maintenanceDuration"
+                    elementState={this.state}
+                    setElementState={this.setState}
+                  />
+                </SubSection>
                 <SubSection
                   caption={t("blockPropertiesDialog.fittedParameters")}
                 >

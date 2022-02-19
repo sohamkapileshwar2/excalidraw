@@ -3459,23 +3459,29 @@ class App extends React.Component<AppProps, AppState> {
       pointerDownState.origin.y,
       this.state.gridSize,
     );
+    
     const element = newBlockElement({
       type: "block",
       name: "",
       description: "",
       units: "Hour",
+      initialAge: 0,
       failureDistribution: {
         distributionName: "Weibull",
         parameters: DistToParameters['Weibull']
       },
       correctiveMaintenanceDistribution: {
-        distributionName: "DefaultNone",
-        parameters: DistToParameters['DefaultNone']
+        distributionName: "Normal",
+        parameters: DistToParameters['Normal']
       },
+      RF_corrective: 0,
       preventiveMaintenanceDistribution: {
         distributionName: "DefaultNone",
         parameters:  DistToParameters['DefaultNone']
       },
+      preventiveMaintenanceType: 0,
+      maintenanceDuration: 0,
+      RF_preventive: 0,
       x: gridX,
       y: gridY,
       strokeColor: this.state.currentItemStrokeColor,

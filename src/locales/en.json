@@ -292,9 +292,15 @@
     "title": "Block Properties",
     "distribution": "Distribution",
     "units": "Units",
+    "currentAge": "Current Age",
     "fittedParameters": "Fitted Parameters",
     "correctiveMaintenance": "Corrective Maintenance",
-    "preventiveMaintenance": "Preventive Maintenance"    
+    "RF": "Restoration Factor",
+    "preventiveMaintenance": "Preventive Maintenance",
+    "type" : "Type",
+    "timeBased": "Time Based",
+    "ageBased": "Age Based",
+    "interval": "Fixed Interval"   
   },
   "clearCanvasDialog": {
     "title": "Clear canvas"

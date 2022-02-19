@@ -98,8 +98,8 @@ export const DistToParameters = {
     gamma: 40,
   },
   Normal: {
-    mean: 10,
-    variance: 1000,
+    mean: 250,
+    sd: 50,
   },
   Exponential1P: {
     lambda: 10,
@@ -143,9 +143,14 @@ export type ExcalidrawBlockElement = _ExcalidrawElementBase & {
   name: String;
   description: String;
   units: "Hour";
+  initialAge: number;
   failureDistribution: Distribution;
   correctiveMaintenanceDistribution: Distribution;
+  RF_corrective: number;
   preventiveMaintenanceDistribution: Distribution;
+  preventiveMaintenanceType: 0 | 1;
+  maintenanceDuration: number;
+  RF_preventive: number;
 };
 
 /**

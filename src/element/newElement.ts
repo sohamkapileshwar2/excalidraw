@@ -102,9 +102,14 @@ export const newBlockElement = (
     name: String;
     description: String;
     units: "Hour";
+    initialAge: number;
     failureDistribution: Distribution;
     correctiveMaintenanceDistribution: Distribution;
+    RF_corrective: number;
     preventiveMaintenanceDistribution: Distribution;
+    preventiveMaintenanceType: 0 | 1;
+    maintenanceDuration: number;
+    RF_preventive: number;
   } & ElementConstructorOpts,
 ): NonDeleted<ExcalidrawBlockElement> => {
   return {
@@ -112,9 +117,14 @@ export const newBlockElement = (
     name: opts.name,
     description: opts.description,
     units: opts.units,
+    initialAge: opts.initialAge,
     failureDistribution: opts.failureDistribution,
     correctiveMaintenanceDistribution: opts.correctiveMaintenanceDistribution,
+    RF_corrective: opts.RF_corrective,
     preventiveMaintenanceDistribution: opts.preventiveMaintenanceDistribution,
+    preventiveMaintenanceType: opts.preventiveMaintenanceType,
+    maintenanceDuration: opts.maintenanceDuration,
+    RF_preventive: opts.RF_preventive
   };
 };
 

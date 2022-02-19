@@ -205,11 +205,16 @@ const restoreElement = (
         name: element.name,
         description: element.description,
         units: element.units,
+        initialAge: element.initialAge,
         failureDistribution: element.failureDistribution,
         correctiveMaintenanceDistribution:
           element.correctiveMaintenanceDistribution,
+        RF_corrective: element.RF_corrective,
         preventiveMaintenanceDistribution:
           element.preventiveMaintenanceDistribution,
+        preventiveMaintenanceType: element.preventiveMaintenanceType,
+        maintenanceDuration: element.maintenanceDuration,
+        RF_preventive: element.RF_preventive,
       });
     // Don't use default case so as to catch a missing an element type case.
     // We also don't want to throw, but instead return void so we filter
