@@ -412,15 +412,15 @@ export class ShowBlockProperties extends React.Component<
               <Column>
                 <SubSection caption={t("blockPropertiesDialog.distribution")}>
                   <SimpleListMenu
-                    defaultIndex={["DefaultNone", "Normal"].indexOf(
+                    defaultIndex={["Normal"].indexOf(
                       this.state.correctiveMaintenanceDistribution
                         .distributionName,
                     )}
-                    options={["DefaultNone", "Normal"]}
+                    options={["Normal"]}
                     callback={(
                       event: any,
                       index: number,
-                      option: "DefaultNone" | "Normal",
+                      option: "Normal",
                     ) => {
                       this.changeState(
                         "correctiveMaintenanceDistribution",
