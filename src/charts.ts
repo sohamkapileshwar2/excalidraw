@@ -253,6 +253,8 @@ const chartLines = (
       [chartWidth, 0],
     ],
     isExisting: false,
+    startBlockId: "",
+    endBlockId: "",
   });
 
   const yLine = newLinearElement({
@@ -270,6 +272,8 @@ const chartLines = (
       [0, -chartHeight],
     ],
     isExisting: false,
+    startBlockId: "",
+    endBlockId: "",
   });
 
   const maxLine = newLinearElement({
@@ -289,6 +293,8 @@ const chartLines = (
       [chartWidth, 0],
     ],
     isExisting: false,
+    startBlockId: "",
+    endBlockId: "",
   });
 
   return [xLine, yLine, maxLine];
@@ -420,6 +426,8 @@ const chartTypeLine = (
     strokeWidth: 2,
     points: points as any,
     isExisting: false,
+    startBlockId: "",
+    endBlockId: "",
   });
 
   const dots = spreadsheet.values.map((value, index) => {
@@ -460,6 +468,8 @@ const chartTypeLine = (
         [0, cy],
       ],
       isExisting: false,
+      startBlockId: "",
+      endBlockId: "",
     });
   });
 

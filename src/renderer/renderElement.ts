@@ -200,6 +200,7 @@ const drawElementOnCanvas = (
       break;
     }
     case "arrow":
+    case "connector":
     case "line": {
       context.lineJoin = "round";
       context.lineCap = "round";
@@ -348,6 +349,7 @@ export const generateRoughOptions = (
       }
       return options;
     }
+    case "connector":
     case "line": {
       if (isPathALoop(element.points)) {
         options.fillStyle = element.fillStyle;
@@ -460,12 +462,15 @@ const generateElementShape = (
         );
         break;
       case "line":
+      case "connector":
       case "arrow": {
         const options = generateRoughOptions(element);
 
         // points array can be empty in the beginning, so it is important to add
         // initial position to it
         const points = element.points.length ? element.points : [[0, 0]];
+
+        // console.log(points)
 
         // curve is always the first element
         // this simplifies finding the curve for an element
@@ -731,6 +736,7 @@ export const renderElement = (
     case "ellipse":
     case "line":
     case "arrow":
+    case "connector":
     case "image":
     case "text":
     case "block": {
@@ -833,6 +839,7 @@ export const renderElementToSvg = (
       break;
     }
     case "line":
+    case "connector":
     case "arrow": {
       generateElementShape(element, generator);
       const group = svgRoot.ownerDocument!.createElementNS(SVG_NS, "g");
@@ -856,7 +863,7 @@ export const renderElementToSvg = (
           }) rotate(${degree} ${cx} ${cy})`,
         );
         if (
-          element.type === "line" &&
+          (element.type === "line" || element.type === "connector")  &&
           isPathALoop(element.points) &&
           element.backgroundColor !== "transparent"
         ) {

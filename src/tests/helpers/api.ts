@@ -98,7 +98,7 @@ export class API {
     containerId?: T extends "text"
       ? ExcalidrawTextElement["containerId"]
       : never;
-  }): T extends "arrow" | "line"
+  }): T extends "arrow" | "line" | "connector"
     ? ExcalidrawLinearElement
     : T extends "freedraw"
     ? ExcalidrawFreeDrawElement
@@ -159,12 +159,15 @@ export class API {
         });
         break;
       case "arrow":
+      case "connector":
       case "line":
         element = newLinearElement({
-          type: type as "arrow" | "line",
+          type: type as "arrow" | "line" | "connector",
           startArrowhead: null,
           endArrowhead: null,
           isExisting: false,
+          startBlockId: "",
+          endBlockId: "",
           ...base,
         });
         break;

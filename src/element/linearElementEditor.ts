@@ -263,6 +263,8 @@ export class LinearElementEditor {
       >
     > = {};
 
+    
+
     if (isDragging && selectedPointsIndices) {
       for (const selectedPoint of selectedPointsIndices) {
         if (

@@ -62,7 +62,7 @@ export const isLinearElementType = (
   elementType: ExcalidrawElement["type"],
 ): boolean => {
   return (
-    elementType === "arrow" || elementType === "line" // || elementType === "freedraw"
+    elementType === "arrow" || elementType === "line" || elementType === "connector" // || elementType === "freedraw"
   );
 };
 

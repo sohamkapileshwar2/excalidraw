@@ -62,17 +62,20 @@ export const transformElements = (
   pointerY: number,
   centerX: number,
   centerY: number,
+  scene: Scene,
 ) => {
   if (selectedElements.length === 1) {
     const [element] = selectedElements;
     if (transformHandleType === "rotation") {
-      rotateSingleElement(
-        element,
-        pointerX,
-        pointerY,
-        shouldRotateWithDiscreteAngle,
-      );
-      updateBoundElements(element);
+      if (element.type !== "connector") {
+        rotateSingleElement(
+          element,
+          pointerX,
+          pointerY,
+          shouldRotateWithDiscreteAngle,
+        );
+        updateBoundElements(element);
+      }
     } else if (
       isLinearElement(element) &&
       element.points.length === 2 &&
@@ -81,13 +84,15 @@ export const transformElements = (
         transformHandleType === "sw" ||
         transformHandleType === "se")
     ) {
-      reshapeSingleTwoPointElement(
-        element,
-        resizeArrowDirection,
-        shouldRotateWithDiscreteAngle,
-        pointerX,
-        pointerY,
-      );
+      if (element.type !== "connector") {
+        reshapeSingleTwoPointElement(
+          element,
+          resizeArrowDirection,
+          shouldRotateWithDiscreteAngle,
+          pointerX,
+          pointerY,
+        );
+      }
     } else if (
       isTextElement(element) &&
       (transformHandleType === "nw" ||
@@ -113,6 +118,45 @@ export const transformElements = (
         pointerX,
         pointerY,
       );
+
+      if (element.type === "block") {
+        var connectorElements = scene.getElements().filter((ele) => {
+          return (
+            ele.type === "connector" &&
+            (ele?.startBlockId === element.id || ele?.endBlockId === element.id)
+          );
+        });
+
+        connectorElements.forEach((connector) => {
+          if (connector.type === "connector") {
+            if (connector.startBlockId === element.id) {
+              mutateElement(connector, {
+                x: element.x + element.width / 2,
+                y: element.y + element.height / 2,
+                points: [
+                  ...connector.points.slice(0, -1),
+                  [
+                    connector.points[1][0] -
+                      (element.x + element.width / 2 - connector.x),
+                    connector.points[1][1] -
+                      (element.y + element.height / 2 - connector.y),
+                  ],
+                ],
+              });
+            } else if (connector.endBlockId === element.id) {
+              mutateElement(connector, {
+                points: [
+                  ...connector.points.slice(0, -1),
+                  [
+                    element.x + element.width / 2 - connector.x,
+                    element.y + element.height / 2 - connector.y,
+                  ],
+                ],
+              });
+            }
+          }
+        });
+      }
     }
 
     return true;

@@ -104,7 +104,9 @@ export type ActionName =
   | "toggleTheme"
   | "increaseFontSize"
   | "decreaseFontSize"
-  | "setBlockProperties";
+  | "setBlockProperties"
+  | "setAsStartBlock"
+  | "setAsEndBlock";
 
 export type PanelComponentProps = {
   elements: readonly ExcalidrawElement[];

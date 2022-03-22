@@ -183,6 +183,7 @@ const hitTestPointAgainstElement = (args: HitTestArgs): boolean => {
       return hitTestFreeDrawElement(args.element, args.point, args.threshold);
     }
     case "arrow":
+    case "connector":
     case "line":
       return hitTestLinear(args);
     case "selection":

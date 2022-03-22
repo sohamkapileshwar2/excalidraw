@@ -44,6 +44,7 @@ export const AllowedExcalidrawElementTypes: Record<
   arrow: true,
   freedraw: true,
   block: true,
+  connector: true
 };
 
 export type RestoredDataState = {
@@ -158,6 +159,7 @@ const restoreElement = (
     // @ts-ignore LEGACY type
     // eslint-disable-next-line no-fallthrough
     case "draw":
+    case "connector":
     case "arrow": {
       const {
         startArrowhead = null,
@@ -191,6 +193,8 @@ const restoreElement = (
         points,
         x,
         y,
+        startBlockId: element.startBlockId,
+        endBlockId: element.endBlockId
       });
     }
     // generic elements

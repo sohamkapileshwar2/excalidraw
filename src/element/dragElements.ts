@@ -8,6 +8,7 @@ import { NonDeletedExcalidrawElement } from "./types";
 import { AppState, PointerDownState } from "../types";
 import { getBoundTextElementId } from "./textElement";
 import { isSelectedViaGroup } from "../groups";
+import { isBlock } from "typescript";
 
 export const dragSelectedElements = (
   pointerDownState: PointerDownState,
@@ -18,44 +19,86 @@ export const dragSelectedElements = (
   distanceX: number = 0,
   distanceY: number = 0,
   appState: AppState,
+  scene: Scene,
 ) => {
   const [x1, y1] = getCommonBounds(selectedElements);
   const offset = { x: pointerX - x1, y: pointerY - y1 };
   selectedElements.forEach((element) => {
-    updateElementCoords(
-      lockDirection,
-      distanceX,
-      distanceY,
-      pointerDownState,
-      element,
-      offset,
-    );
-    // update coords of bound text only if we're dragging the container directly
-    // (we don't drag the group that it's part of)
-    if (
-      // container isn't part of any group
-      // (perf optim so we don't check `isSelectedViaGroup()` in every case)
-      !element.groupIds.length ||
-      // container is part of a group, but we're dragging the container directly
-      (appState.editingGroupId && !isSelectedViaGroup(appState, element))
-    ) {
-      const boundTextElementId = getBoundTextElementId(element);
-      if (boundTextElementId) {
-        const textElement =
-          Scene.getScene(element)!.getElement(boundTextElementId);
-        updateElementCoords(
-          lockDirection,
-          distanceX,
-          distanceY,
-          pointerDownState,
-          textElement!,
-          offset,
-        );
+    if (element.type !== "connector") {
+      updateElementCoords(
+        lockDirection,
+        distanceX,
+        distanceY,
+        pointerDownState,
+        element,
+        offset,
+      );
+
+      if (element.type === "block") {
+        var connectorElements = scene.getElements().filter((ele) => {
+          return (
+            ele.type === "connector" &&
+            (ele?.startBlockId === element.id || ele?.endBlockId === element.id)
+          );
+        });
+
+        connectorElements.forEach((connector) => {
+          if (connector.type === "connector") {
+            if (connector.startBlockId === element.id) {
+              mutateElement(connector, {
+                x: element.x + element.width / 2,
+                y: element.y + element.height / 2,
+                points: [
+                  ...connector.points.slice(0, -1),
+                  [
+                    connector.points[1][0] -
+                      (element.x + element.width / 2 - connector.x),
+                    connector.points[1][1] -
+                      (element.y + element.height / 2 - connector.y),
+                  ],
+                ],
+              });
+            } else if (connector.endBlockId === element.id) {
+              mutateElement(connector, {
+                points: [
+                  ...connector.points.slice(0, -1),
+                  [
+                    element.x + element.width / 2 - connector.x,
+                    element.y + element.height / 2 - connector.y,
+                  ],
+                ],
+              });
+            }
+          }
+        });
       }
+      // update coords of bound text only if we're dragging the container directly
+      // (we don't drag the group that it's part of)
+      if (
+        // container isn't part of any group
+        // (perf optim so we don't check `isSelectedViaGroup()` in every case)
+        !element.groupIds.length ||
+        // container is part of a group, but we're dragging the container directly
+        (appState.editingGroupId && !isSelectedViaGroup(appState, element))
+      ) {
+        const boundTextElementId = getBoundTextElementId(element);
+        if (boundTextElementId) {
+          const textElement =
+            Scene.getScene(element)!.getElement(boundTextElementId);
+          updateElementCoords(
+            lockDirection,
+            distanceX,
+            distanceY,
+            pointerDownState,
+            textElement!,
+            offset,
+          );
+        }
+      }
+      updateBoundElements(element, {
+        simultaneouslyUpdated: selectedElements,
+      });
     }
-    updateBoundElements(element, {
-      simultaneouslyUpdated: selectedElements,
-    });
   });
 };
 

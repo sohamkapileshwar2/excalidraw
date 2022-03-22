@@ -13,6 +13,7 @@ import {
   FileId,
   ExcalidrawImageElement,
   Theme,
+  ExcalidrawBlockElement,
 } from "./element/types";
 import { SHAPES } from "./shapes";
 import { Point as RoughPoint } from "roughjs/bin/geometry";
@@ -150,6 +151,9 @@ export type AppState = {
       };
   /** imageElement waiting to be placed on canvas */
   pendingImageElement: NonDeleted<ExcalidrawImageElement> | null;
+  highlightedforConnector: boolean;
+  startBlock: ExcalidrawElement | undefined;
+  endBlock: ExcalidrawElement | undefined;
 };
 
 export type NormalizedZoomValue = number & { _brand: "normalizedZoom" };

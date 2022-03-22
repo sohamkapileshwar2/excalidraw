@@ -106,7 +106,9 @@
     "decreaseFontSize": "Decrease font size",
     "increaseFontSize": "Increase font size",
     "setBlockProperties": "Set Block Properties",
-    "blockProperties": "Block Properties"
+    "blockProperties": "Block Properties",
+    "setAsStartBlock": "Set As Start Block",
+    "setAsEndBlock": "Set As End Block"
   },
   "buttons": {
     "clearReset": "Reset the canvas",
@@ -191,7 +193,8 @@
     "text": "Text",
     "library": "Library",
     "lock": "Keep selected tool active after drawing",
-    "block": "Block"
+    "block": "Block",
+    "connector" : "Connect"
   },
   "headings": {
     "canvasActions": "Canvas actions",
@@ -381,7 +384,9 @@
     "fileSaved": "File saved.",
     "fileSavedToFilename": "Saved to {filename}",
     "canvas": "canvas",
-    "selection": "selection"
+    "selection": "selection",
+    "assignedStartBlock": "Set as Start Block",
+    "assignedEndBlock": "Set as End Block"
   },
   "colors": {
     "ffffff": "White",

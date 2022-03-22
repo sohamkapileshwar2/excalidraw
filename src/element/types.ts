@@ -153,6 +153,7 @@ export type ExcalidrawBlockElement = _ExcalidrawElementBase & {
   RF_preventive: number;
 };
 
+
 /**
  * These are elements that don't have any additional properties.
  */
@@ -216,13 +217,15 @@ export type Arrowhead = "arrow" | "bar" | "dot" | "triangle";
 
 export type ExcalidrawLinearElement = _ExcalidrawElementBase &
   Readonly<{
-    type: "line" | "arrow";
+    type: "line" | "arrow" | "connector";
     points: readonly Point[];
     lastCommittedPoint: Point | null;
     startBinding: PointBinding | null;
     endBinding: PointBinding | null;
     startArrowhead: Arrowhead | null;
     endArrowhead: Arrowhead | null;
+    startBlockId: string;
+    endBlockId: string;
   }>;
 
 export type ExcalidrawFreeDrawElement = _ExcalidrawElementBase &

@@ -244,6 +244,10 @@ import {
   getBoundTextElementId,
 } from "../element/textElement";
 import { isHittingElementNotConsideringBoundingBox } from "../element/collision";
+import {
+  actionSetAsEndBlock,
+  actionSetAsStartBlock,
+} from "../actions/actionSetAsStartEndBlock";
 
 const IsMobileContext = React.createContext(false);
 export const useIsMobile = () => useContext(IsMobileContext);
@@ -439,6 +443,12 @@ class App extends React.Component<AppProps, AppState> {
   public render() {
     // console.log(this.state, this.scene.getElements());
     const { zenModeEnabled, viewModeEnabled } = this.state;
+
+    // if (this.state.elementType === "connector") {
+    //   this.setAppState({ ...this.state, highlightedforConnector: true });
+    // } else {
+    //   this.setAppState({ ...this.state, highlightedforConnector: false });
+    // }
 
     const {
       onCollabButtonClick,
@@ -2239,13 +2249,13 @@ class App extends React.Component<AppProps, AppState> {
         !this.state.editingLinearElement ||
         this.state.editingLinearElement.elementId !== selectedElements[0].id
       ) {
-        this.history.resumeRecording();
-        this.setState({
-          editingLinearElement: new LinearElementEditor(
-            selectedElements[0],
-            this.scene,
-          ),
-        });
+        // this.history.resumeRecording();
+        // this.setState({
+        //   editingLinearElement: new LinearElementEditor(
+        //     selectedElements[0],
+        //     this.scene,
+        //   ),
+        // });
       }
       return;
     }
@@ -2635,7 +2645,8 @@ class App extends React.Component<AppProps, AppState> {
       return;
     } else if (
       this.state.elementType === "arrow" ||
-      this.state.elementType === "line"
+      this.state.elementType === "line" ||
+      this.state.elementType === "connector"
     ) {
       this.handleLinearElementOnPointerDown(
         event,
@@ -3349,7 +3360,7 @@ class App extends React.Component<AppProps, AppState> {
       });
       setCursor(this.canvas, CURSOR_TYPE.POINTER);
     } else {
-      const [gridX, gridY] = getGridPoint(
+      var [gridX, gridY] = getGridPoint(
         pointerDownState.origin.x,
         pointerDownState.origin.y,
         this.state.gridSize,
@@ -3366,45 +3377,74 @@ class App extends React.Component<AppProps, AppState> {
           ? [currentItemStartArrowhead, currentItemEndArrowhead]
           : [null, null];
 
-      const element = newLinearElement({
-        type: elementType,
-        x: gridX,
-        y: gridY,
-        strokeColor: this.state.currentItemStrokeColor,
-        backgroundColor: this.state.currentItemBackgroundColor,
-        fillStyle: this.state.currentItemFillStyle,
-        strokeWidth: this.state.currentItemStrokeWidth,
-        strokeStyle: this.state.currentItemStrokeStyle,
-        roughness: this.state.currentItemRoughness,
-        opacity: this.state.currentItemOpacity,
-        strokeSharpness: this.state.currentItemLinearStrokeSharpness,
-        startArrowhead,
-        endArrowhead,
-        isExisting: false,
-      });
-      this.setState((prevState) => ({
-        selectedElementIds: {
-          ...prevState.selectedElementIds,
-          [element.id]: false,
-        },
-      }));
-      mutateElement(element, {
-        points: [...element.points, [0, 0]],
-      });
-      const boundElement = getHoveredElementForBinding(
-        pointerDownState.origin,
-        this.scene,
-      );
-      this.scene.replaceAllElements([
-        ...this.scene.getElementsIncludingDeleted(),
-        element,
-      ]);
-      this.setState({
-        draggingElement: element,
-        editingElement: element,
-        startBoundElement: boundElement,
-        suggestedBindings: [],
-      });
+      var flag = true;
+      var startBlock = "";
+
+      if (elementType === "connector") {
+        const blockElements = this.scene
+          .getElements()
+          .filter((element) => element.type === "block");
+
+        flag = false;
+
+        blockElements.forEach((block) => {
+          if (
+            gridX >= block.x &&
+            gridX <= block.x + block.width &&
+            gridY >= block.y &&
+            gridY <= block.y + block.height
+          ) {
+            flag = true;
+            startBlock = block.id;
+            gridX = block.x + block.width / 2;
+            gridY = block.y + block.height / 2;
+          }
+        });
+      }
+
+      if (flag) {
+        const element = newLinearElement({
+          type: elementType,
+          x: gridX,
+          y: gridY,
+          strokeColor: this.state.currentItemStrokeColor,
+          backgroundColor: this.state.currentItemBackgroundColor,
+          fillStyle: this.state.currentItemFillStyle,
+          strokeWidth: this.state.currentItemStrokeWidth,
+          strokeStyle: this.state.currentItemStrokeStyle,
+          roughness: this.state.currentItemRoughness,
+          opacity: this.state.currentItemOpacity,
+          strokeSharpness: this.state.currentItemLinearStrokeSharpness,
+          startArrowhead,
+          endArrowhead,
+          isExisting: false,
+          startBlockId: elementType === "connector" ? startBlock : "",
+          endBlockId: "",
+        });
+        this.setState((prevState) => ({
+          selectedElementIds: {
+            ...prevState.selectedElementIds,
+            [element.id]: false,
+          },
+        }));
+        mutateElement(element, {
+          points: [...element.points, [0, 0]],
+        });
+        const boundElement = getHoveredElementForBinding(
+          pointerDownState.origin,
+          this.scene,
+        );
+        this.scene.replaceAllElements([
+          ...this.scene.getElementsIncludingDeleted(),
+          element,
+        ]);
+        this.setState({
+          draggingElement: element,
+          editingElement: element,
+          startBoundElement: boundElement,
+          suggestedBindings: [],
+        });
+      }
     }
   };
 
@@ -3459,7 +3499,7 @@ class App extends React.Component<AppProps, AppState> {
       pointerDownState.origin.y,
       this.state.gridSize,
     );
-    
+
     const element = newBlockElement({
       type: "block",
       name: "",
@@ -3468,16 +3508,16 @@ class App extends React.Component<AppProps, AppState> {
       initialAge: 0,
       failureDistribution: {
         distributionName: "Weibull",
-        parameters: DistToParameters['Weibull']
+        parameters: DistToParameters["Weibull"],
       },
       correctiveMaintenanceDistribution: {
         distributionName: "Normal",
-        parameters: DistToParameters['Normal']
+        parameters: DistToParameters["Normal"],
       },
       RF_corrective: 0,
       preventiveMaintenanceDistribution: {
         distributionName: "DefaultNone",
-        parameters:  DistToParameters['DefaultNone']
+        parameters: DistToParameters["DefaultNone"],
       },
       preventiveMaintenanceType: 0,
       maintenanceDuration: 0,
@@ -3663,6 +3703,7 @@ class App extends React.Component<AppProps, AppState> {
             dragDistanceX,
             dragDistanceY,
             this.state,
+            this.scene,
           );
           this.maybeSuggestBindingForAll(selectedElements);
 
@@ -3925,19 +3966,27 @@ class App extends React.Component<AppProps, AppState> {
             this.state.editingLinearElement.elementId ||
             !pointerDownState.hit.hasHitElementInside)
         ) {
+
           this.actionManager.executeAction(actionFinalize);
         } else {
-          const editingLinearElement = LinearElementEditor.handlePointerUp(
+          var pointerCoords = viewportCoordsToSceneCoords(
             childEvent,
-            this.state.editingLinearElement,
             this.state,
           );
-          if (editingLinearElement !== this.state.editingLinearElement) {
-            this.setState({
-              editingLinearElement,
-              suggestedBindings: [],
-            });
-          }
+
+
+            const editingLinearElement = LinearElementEditor.handlePointerUp(
+              childEvent,
+              this.state.editingLinearElement,
+              this.state,
+            );
+            if (editingLinearElement !== this.state.editingLinearElement) {
+              this.setState({
+                editingLinearElement,
+                suggestedBindings: [],
+              });
+            }
+
         }
       }
 
@@ -4020,61 +4069,103 @@ class App extends React.Component<AppProps, AppState> {
         if (draggingElement!.points.length > 1) {
           this.history.resumeRecording();
         }
-        const pointerCoords = viewportCoordsToSceneCoords(
-          childEvent,
-          this.state,
-        );
+        var pointerCoords = viewportCoordsToSceneCoords(childEvent, this.state);
 
-        if (
-          !pointerDownState.drag.hasOccurred &&
-          draggingElement &&
-          !multiElement
-        ) {
-          mutateElement(draggingElement, {
-            points: [
-              ...draggingElement.points,
-              [
-                pointerCoords.x - draggingElement.x,
-                pointerCoords.y - draggingElement.y,
-              ],
-            ],
+        var flag = true;
+        var endBlock = null;
+
+        if (elementType === "connector") {
+          const blockElements = this.scene
+            .getElements()
+            .filter((element) => element.type === "block");
+
+          flag = false;
+
+          blockElements.forEach((block) => {
+            if (
+              pointerCoords.x >= block.x &&
+              pointerCoords.x <= block.x + block.width &&
+              pointerCoords.y >= block.y &&
+              pointerCoords.y <= block.y + block.height
+            ) {
+              flag = true;
+              mutateElement(draggingElement, { endBlockId: block.id });
+              pointerCoords.x = block.x + block.width / 2;
+              pointerCoords.y = block.y + block.height / 2;
+              // draggingElement.width +=
+            }
           });
-          this.setState({
-            multiElement: draggingElement,
-            editingElement: this.state.draggingElement,
-          });
-        } else if (pointerDownState.drag.hasOccurred && !multiElement) {
+        }
+
+        if (flag) {
           if (
-            isBindingEnabled(this.state) &&
-            isBindingElement(draggingElement)
+            !pointerDownState.drag.hasOccurred &&
+            draggingElement &&
+            !multiElement
           ) {
-            maybeBindLinearElement(
-              draggingElement,
-              this.state,
-              this.scene,
-              pointerCoords,
-            );
+            mutateElement(draggingElement, {
+              points: [
+                ...draggingElement.points,
+                [
+                  pointerCoords.x - draggingElement.x,
+                  pointerCoords.y - draggingElement.y,
+                ],
+              ],
+            });
+            this.setState({
+              multiElement: draggingElement,
+              editingElement: this.state.draggingElement,
+            });
+          } else if (pointerDownState.drag.hasOccurred && !multiElement) {
+            mutateElement(draggingElement, {
+              points: [
+                ...draggingElement.points.slice(0, -1),
+                [
+                  pointerCoords.x - draggingElement.x,
+                  pointerCoords.y - draggingElement.y,
+                ],
+              ],
+            });
+
+            if (
+              isBindingEnabled(this.state) &&
+              isBindingElement(draggingElement)
+            ) {
+              maybeBindLinearElement(
+                draggingElement,
+                this.state,
+                this.scene,
+                pointerCoords,
+              );
+            }
+            this.setState({ suggestedBindings: [], startBoundElement: null });
+            if (!elementLocked) {
+              resetCursor(this.canvas);
+              this.setState((prevState) => ({
+                draggingElement: null,
+                elementType: "selection",
+                highlightedforConnector: false,
+                selectedElementIds: {
+                  ...prevState.selectedElementIds,
+                  [this.state.draggingElement!.id]: true,
+                },
+              }));
+            } else {
+              this.setState((prevState) => ({
+                draggingElement: null,
+                selectedElementIds: {
+                  ...prevState.selectedElementIds,
+                  [this.state.draggingElement!.id]: true,
+                },
+              }));
+            }
           }
-          this.setState({ suggestedBindings: [], startBoundElement: null });
-          if (!elementLocked) {
-            resetCursor(this.canvas);
-            this.setState((prevState) => ({
-              draggingElement: null,
-              elementType: "selection",
-              selectedElementIds: {
-                ...prevState.selectedElementIds,
-                [this.state.draggingElement!.id]: true,
-              },
-            }));
-          } else {
-            this.setState((prevState) => ({
-              draggingElement: null,
-              selectedElementIds: {
-                ...prevState.selectedElementIds,
-                [this.state.draggingElement!.id]: true,
-              },
-            }));
-          }
+        } else {
+          var allElements = this.scene
+            .getElementsIncludingDeleted()
+            .filter((element) => element.id !== draggingElement.id);
+
+          this.scene.replaceAllElements([...allElements]);
         }
         return;
       }
@@ -4982,6 +5073,7 @@ class App extends React.Component<AppProps, AppState> {
         resizeY,
         pointerDownState.resize.center.x,
         pointerDownState.resize.center.y,
+        this.scene,
       )
     ) {
       this.maybeSuggestBindingForAll(selectedElements);
@@ -5126,6 +5218,8 @@ class App extends React.Component<AppProps, AppState> {
             this.isMobile && separator,
             ...options,
             separator,
+            actionSetAsStartBlock,
+            actionSetAsEndBlock,
             actionCopyStyles,
             actionPasteStyles,
             separator,

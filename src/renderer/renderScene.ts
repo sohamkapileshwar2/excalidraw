@@ -50,6 +50,7 @@ import {
 import { viewportCoordsToSceneCoords, supportsEmoji } from "../utils";
 import { UserIdleState } from "../types";
 import { THEME_FILTER } from "../constants";
+import { height, width } from "@mui/system";
 
 const hasEmojiSupport = supportsEmoji();
 
@@ -267,6 +268,19 @@ export const renderScene = (
   visibleElements.forEach((element) => {
     try {
       renderElement(element, rc, context, renderConfig);
+      if (appState.highlightedforConnector && element.type === "block") {
+        renderHighlightforConnector(context, renderConfig, {
+          angle: element.angle,
+          elementX1: element.x,
+          elementY1: element.y,
+          elementX2: element.x + element.width,
+          elementY2: element.y + element.height,
+          selectionColors: [oc.black],
+        });
+      }
+      if (element.type === "connector") {
+        renderLinearPointHandles(context, appState, renderConfig, element);
+      }
     } catch (error: any) {
       console.error(error);
     }
@@ -630,6 +644,62 @@ const renderSelectionBorder = (
   const count = selectionColors.length;
   for (let index = 0; index < count; ++index) {
     context.strokeStyle = selectionColors[index];
+    context.setLineDash([
+      dashWidth,
+      spaceWidth + (dashWidth + spaceWidth) * (count - 1),
+    ]);
+    context.lineDashOffset = (dashWidth + spaceWidth) * index;
+    strokeRectWithRotation(
+      context,
+      elementX1 - dashedLinePadding,
+      elementY1 - dashedLinePadding,
+      elementWidth + dashedLinePadding * 2,
+      elementHeight + dashedLinePadding * 2,
+      elementX1 + elementWidth / 2,
+      elementY1 + elementHeight / 2,
+      angle,
+    );
+  }
+  context.restore();
+};
+
+const renderHighlightforConnector = (
+  context: CanvasRenderingContext2D,
+  renderConfig: RenderConfig,
+  elementProperties: {
+    angle: number;
+    elementX1: number;
+    elementY1: number;
+    elementX2: number;
+    elementY2: number;
+    selectionColors: string[];
+  },
+) => {
+  const { angle, elementX1, elementY1, elementX2, elementY2, selectionColors } =
+    elementProperties;
+  const elementWidth = elementX2 - elementX1;
+  const elementHeight = elementY2 - elementY1;
+
+  const dashedLinePadding = 4 / renderConfig.zoom.value;
+  const dashWidth = 8 / renderConfig.zoom.value;
+  const spaceWidth = 4 / renderConfig.zoom.value;
+
+  context.save();
+  context.translate(renderConfig.scrollX, renderConfig.scrollY);
+  context.lineWidth = 1 / renderConfig.zoom.value;
+
+  const count = selectionColors.length;
+  for (let index = 0; index < count; ++index) {
+    context.strokeStyle = selectionColors[index];
+    strokeEllipseWithRotation(
+      context,
+      30,
+      30,
+      elementX1 + elementWidth / 2,
+      elementY1 + elementHeight / 2,
+      0,
+    );
+
     context.setLineDash([
       dashWidth,
       spaceWidth + (dashWidth + spaceWidth) * (count - 1),

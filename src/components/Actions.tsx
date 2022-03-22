@@ -187,10 +187,11 @@ export const ShapesSwitcher = ({
         ? `${capitalizeString(letter)} ${t("helpDialog.or")} ${index + 1}`
         : `${index + 1}`;
       if (
-        value === "rectangle" ||
+        // value === "rectangle" ||
         value === "selection" ||
-        value === "text" ||
-        value === "block"
+        // value === "text" ||
+        value === "block" ||
+        value === "connector" 
       ) {
         return (
           <ToolButton
@@ -210,6 +211,7 @@ export const ShapesSwitcher = ({
                 elementType: value,
                 multiElement: null,
                 selectedElementIds: {},
+                highlightedforConnector: value === "connector" ? true : false
               });
               setCursorForShape(canvas, value);
               // if (value === "image") {

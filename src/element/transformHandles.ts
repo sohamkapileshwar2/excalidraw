@@ -226,6 +226,7 @@ export const getTransformHandles = (
   if (
     element.type === "arrow" ||
     element.type === "line" ||
+    element.type === "connector" ||
     element.type === "freedraw"
   ) {
     if (element.points.length === 2) {

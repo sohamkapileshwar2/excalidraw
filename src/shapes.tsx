@@ -24,6 +24,23 @@ export const SHAPES = [
   },
   {
     icon: (
+      // custom
+      <svg viewBox="0 0 6 6">
+        <line
+          x1="0"
+          y1="3"
+          x2="6"
+          y2="3"
+          stroke="currentColor"
+          strokeLinecap="round"
+        />
+      </svg>
+    ),
+    value: "connector",
+    key: [KEYS.P, KEYS.L],
+  },
+  {
+    icon: (
       // fa-square
       <svg viewBox="0 0 448 512">
         <rect
